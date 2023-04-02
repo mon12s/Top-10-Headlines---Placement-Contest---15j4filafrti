@@ -6,10 +6,28 @@ const App = () => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState();
 
+  const API_KEY="";
+
+  const changeFunction=(e)=>
+  {
+    setCategory(e.target.value);
+  }
+  useEffect(()=>{
+    setLoading(true);
+
+    fetch('https://gnews.io/api/v4/top-headlines?category'=${
+      category} & lang = en&country = us&max = 10 & apikey=${API_KEY}).then(res => res.json())
+      .then((res)=>{
+        setNewsData(res.articles)
+       console.log(res);
+      }).then(()=>setLoading(false));
+
+  }, [category])
+
   return (
     <div id="main">
       <h1 className='heading'>Top 10 {category} news.</h1>
-      <select value={category}>
+      <select value={category} onChange={changeF}>
         <option value="general">General</option>
         <option value="business">Business</option>
         <option value="sports">Sports</option>
@@ -18,6 +36,8 @@ const App = () => {
         <option value="entertainment">Entertainment</option>
         <option value="science">Science</option>
       </select>
+
+    
       <p className='loader'>Loading...</p>
       <ol>
         <li key="">
